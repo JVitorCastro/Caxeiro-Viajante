@@ -22,7 +22,7 @@ public class CaixeiroViajante {
     public void buscaEmProfundidade(int noAtual, int noInicial, int custo, int profundidade) {
     	// verifica se o algoritmo está no nó inicial e se já visitou todos os nós
     	// se for verdadeiro atualiza a solução final
-        if (profundidade == grafo.length && noAtual == noInicial) {
+        if (profundidade == grafo.length) {
             if (custo < custoMinimo) { // o custo atual é menor do que o custo armazenado anteriormente?
                 custoMinimo = custo;
                 caminho = visitado.clone(); // cria uma cópia dos nós visitados em "caminho"
@@ -32,7 +32,7 @@ public class CaixeiroViajante {
             return; // encerra o método e retorna o custo mínimo
         }
         for (int i = 0; i < grafo.length; i++) {
-            if (grafo[noAtual][i] != 0 && visitado[i] == 0 && i+1 != noInicial) { // verificação de adjacência e visita
+            if ((grafo[noAtual][i] != 0 && visitado[i] == 0 && i != noInicial) || (profundidade == grafo.length - 1 && i == noInicial)) { // verificação de adjacência e visita
                 visitado[i] = profundidade + 1; // marcando o nó atual como visitado
                 buscaEmProfundidade(i, noInicial, custo + grafo[noAtual][i], profundidade + 1); // chamada recursiva
                 visitado[i] = 0; // se chegou aqui significa que percorreu todos os nós e não achou nenhum livre
@@ -40,6 +40,7 @@ public class CaixeiroViajante {
                 				 // e reinicia a contagem anterior agora com i+1, ou seja
                 				 // retorna a cidade anterior e faz outra escolha de caminho
             }
+
         }
     }
 
@@ -69,10 +70,10 @@ public class CaixeiroViajante {
 		matriz [2][2] = 0; // Cidade C -> C
 		
         int[][] grafo = {
-        			{ 0, 10, 15, 20 }, 
-        			{ 10, 0, 35, 25 }, 
-        			{ 15, 35, 0, 30 },
-        			{ 20, 25, 30, 0 }
+        			{ 0, 10, 15, 20 }, // A
+        			{ 10, 0, 35, 25 }, // B
+        			{ 15, 35, 0, 30 }, // C
+        			{ 20, 25, 30, 0 }  // D
     			}; // grafo de exemplo
         
         
